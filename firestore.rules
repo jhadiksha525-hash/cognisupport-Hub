@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Global Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() { return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    // Org Role Check
+    function getMember(orgId) {
+      return get(/databases/$(database)/documents/org_members/$(orgId + '_' + request.auth.uid));
+    }
+    function isOrgMember(orgId) {
+      return isSignedIn() && exists(/databases/$(database)/documents/org_members/$(orgId + '_' + request.auth.uid));
+    }
+    function isOrgAdmin(orgId) {
+      return isOrgMember(orgId) && getMember(orgId).data.role in ['OWNER', 'ADMIN'];
+    }
+
+    // --- Entity Validations ---
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) 
+        && data.keys().size() <= 6
+        && data.uid == request.auth.uid
+        && data.email is string
+        && data.createdAt == request.time;
+    }
+
+    function isValidOrganization(data) {
+      return data.keys().hasAll(['name', 'ownerId', 'createdAt'])
+        && data.keys().size() <= 4
+        && data.name is string && data.name.size() <= 100
+        && data.ownerId == request.auth.uid
+        && data.createdAt == request.time;
+    }
+
+    // --- Collection Rules ---
+
+    // 1. Users
+    match /users/{userId} {
+      allow get: if isSignedIn() && request.auth.uid == userId;
+      allow create: if isSignedIn() && isValidUserProfile(incoming());
+      allow update: if isSignedIn() && request.auth.uid == userId 
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL']);
+    }
+
+    // 2. Organizations
+    match /organizations/{orgId} {
+      allow get: if isOrgMember(orgId);
+      allow create: if isSignedIn() && isValidOrganization(incoming());
+      allow update: if isOrgAdmin(orgId) && incoming().ownerId == existing().ownerId;
+    }
+
+    // 3. Org Members
+    match /org_members/{memberId} {
+      // ID pattern: {orgId}_{userId}
+      allow get: if isSignedIn() && (request.auth.uid == resource.data.userId || isOrgMember(resource.data.orgId));
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid; // Only list own memberships
+      allow create: if isSignedIn() && (
+        incoming().userId == request.auth.uid && incoming().role == 'OWNER' && !exists(/databases/$(database)/documents/organizations/$(incoming().orgId))
+        || isOrgAdmin(incoming().orgId)
+      );
+      allow delete: if isOrgAdmin(resource.data.orgId) && resource.data.role != 'OWNER';
+    }
+
+    // 4. Documents
+    match /documents/{docId} {
+      allow read: if isOrgMember(resource.data.orgId);
+      allow create: if isOrgAdmin(incoming().orgId);
+      allow update: if isOrgAdmin(existing().orgId) && incoming().orgId == existing().orgId;
+      allow delete: if isOrgAdmin(resource.data.orgId);
+    }
+
+    // 5. Conversations
+    match /conversations/{convId} {
+      allow get: if isOrgMember(resource.data.orgId) || (isSignedIn() && request.auth.uid == resource.data.visitorId);
+      allow list: if isOrgMember(resource.data.orgId);
+      allow create: if true; // Public for widget
+      allow update: if isOrgMember(existing().orgId);
+    }
+
+    // 6. Messages
+    match /messages/{msgId} {
+      allow read: if isOrgMember(resource.data.orgId) || (isSignedIn() && get(/databases/$(database)/documents/conversations/$(resource.data.conversationId)).data.visitorId == request.auth.uid);
+      allow create: if true; // Public for widget (AI/Visitor)
+      allow list: if isOrgMember(resource.data.orgId); // Admins list all messages in a conv
+    }
+
+    // 7. Widget Settings
+    match /widget_settings/{settingsId} {
+      allow get: if true; // Public for widget
+      allow create, update: if isOrgAdmin(incoming().orgId);
+    }
+  }
+}

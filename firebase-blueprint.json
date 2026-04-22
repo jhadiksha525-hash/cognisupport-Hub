@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "User Profile",
+      "description": "Stores user details and metadata.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "organization": {
+      "title": "Organization",
+      "description": "Represents a tenant or company.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "ownerId", "createdAt"]
+    },
+    "orgMember": {
+      "title": "Organization Member",
+      "description": "Link between users and organizations with roles.",
+      "type": "object",
+      "properties": {
+        "orgId": { "type": "string" },
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["OWNER", "ADMIN", "AGENT"] },
+        "joinedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "userId", "role", "joinedAt"]
+    },
+    "document": {
+      "title": "Document",
+      "description": "Uploaded knowledge base files.",
+      "type": "object",
+      "properties": {
+        "orgId": { "type": "string" },
+        "filename": { "type": "string" },
+        "status": { "type": "string", "enum": ["processing", "done", "failed"] },
+        "storagePath": { "type": "string" },
+        "fileSize": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "filename", "status", "storagePath", "createdAt"]
+    },
+    "conversation": {
+      "title": "Conversation",
+      "description": "Chat sessions with visitors.",
+      "type": "object",
+      "properties": {
+        "orgId": { "type": "string" },
+        "visitorId": { "type": "string" },
+        "visitorName": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "pending", "closed"] },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "visitorId", "status", "createdAt"]
+    },
+    "message": {
+      "title": "Message",
+      "description": "Messages within a conversation.",
+      "type": "object",
+      "properties": {
+        "conversationId": { "type": "string" },
+        "orgId": { "type": "string" },
+        "sender": { "type": "string", "enum": ["visitor", "ai", "agent"] },
+        "text": { "type": "string" },
+        "citations": { "type": "array", "items": { "type": "string" } },
+        "confidence": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["conversationId", "orgId", "sender", "text", "createdAt"]
+    },
+    "widgetSettings": {
+      "title": "Widget Settings",
+      "description": "Configuration for the chat widget.",
+      "type": "object",
+      "properties": {
+        "orgId": { "type": "string" },
+        "themeColor": { "type": "string" },
+        "welcomeMessage": { "type": "string" },
+        "isEnabled": { "type": "boolean" }
+      },
+      "required": ["orgId", "themeColor", "welcomeMessage", "isEnabled"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "User profile data."
+    },
+    "/organizations/{orgId}": {
+      "schema": "organization",
+      "description": "Organization details."
+    },
+    "/org_members/{memberId}": {
+      "schema": "orgMember",
+      "description": "Mapping of users to organizations."
+    },
+    "/documents/{docId}": {
+      "schema": "document",
+      "description": "Metadata for uploaded files."
+    },
+    "/conversations/{convId}": {
+      "schema": "conversation",
+      "description": "Visitor conversation threads."
+    },
+    "/messages/{msgId}": {
+      "schema": "message",
+      "description": "Individual messages."
+    },
+    "/widget_settings/{settingsId}": {
+      "schema": "widgetSettings",
+      "description": "Widget customization per org."
+    }
+  }
+}
