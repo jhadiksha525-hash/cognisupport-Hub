@@ -4,6 +4,9 @@ import {
   signInWithPopup, 
   GoogleAuthProvider, 
   signOut as firebaseSignOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
   User 
 } from 'firebase/auth';
 import { auth, db } from './firebase';
@@ -14,6 +17,8 @@ interface AuthContextType {
   profile: any | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>;
+  signInWithEmail: (email: string, pass: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -28,22 +33,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        // Sync/get user profile
-        const userRef = doc(db, 'users', user.uid);
-        const userSnap = await getDoc(userRef);
-        
-        if (!userSnap.exists()) {
-          const newProfile = {
+        try {
+          // Sync/get user profile
+          const userRef = doc(db, 'users', user.uid);
+          const userSnap = await getDoc(userRef);
+          
+          if (!userSnap.exists()) {
+            const newProfile = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName || user.email?.split('@')[0] || 'User',
+              photoURL: user.photoURL || '',
+              createdAt: serverTimestamp()
+            };
+            await setDoc(userRef, newProfile);
+            setProfile(newProfile);
+          } else {
+            setProfile(userSnap.data());
+          }
+        } catch (error: any) {
+          console.error("Error syncing profile:", error);
+          
+          // Use basic info if we can't fetch the full profile due to network
+          setProfile({
             uid: user.uid,
             email: user.email,
-            displayName: user.displayName || 'User',
+            displayName: user.displayName || user.email?.split('@')[0] || 'User',
             photoURL: user.photoURL || '',
-            createdAt: serverTimestamp()
-          };
-          await setDoc(userRef, newProfile);
-          setProfile(newProfile);
-        } else {
-          setProfile(userSnap.data());
+            isOffline: true
+          });
         }
       } else {
         setProfile(null);
@@ -60,6 +78,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Auth error:", error);
+      throw error;
+    }
+  };
+
+  const signUpWithEmail = async (email: string, pass: string, name: string) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      await sendEmailVerification(userCredential.user);
+      
+      // Initial profile creation
+      const userRef = doc(db, 'users', userCredential.user.uid);
+      await setDoc(userRef, {
+        uid: userCredential.user.uid,
+        email: email,
+        displayName: name,
+        photoURL: '',
+        createdAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error("Signup error:", error);
+      throw error;
+    }
+  };
+
+  const signInWithEmail = async (email: string, pass: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (error) {
+      console.error("Signin error:", error);
+      throw error;
     }
   };
 
@@ -68,7 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, signUpWithEmail, signInWithEmail, signOut }}>
       {!loading && children}
     </AuthContext.Provider>
   );

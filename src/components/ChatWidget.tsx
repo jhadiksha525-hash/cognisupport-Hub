@@ -41,22 +41,22 @@ export default function ChatWidget() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="mb-4 w-[350px] md:w-[400px] h-[500px] glass-card flex flex-col overflow-hidden shadow-2xl border-slate-700/50"
+            className="mb-4 w-[350px] md:w-[400px] h-[550px] glass-card flex flex-col overflow-hidden shadow-2xl border-neutral-200 bg-white rounded-3xl"
           >
             {/* Header */}
-            <div className="bg-brand-600 p-4 flex items-center justify-between">
+            <div className="bg-black p-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="bg-white/20 p-2 rounded-lg">
+                <div className="bg-white/10 p-2 rounded-xl backdrop-blur-sm">
                   <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm">CogniSupport Assistant</h4>
-                  <p className="text-brand-100 text-[10px]">Asking AI Wisdom...</p>
+                  <h4 className="text-white font-bold text-sm tracking-tight">Support Assistant</h4>
+                  <p className="text-neutral-400 text-[10px] font-bold uppercase tracking-widest">Active Wisdom</p>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-white/80 hover:text-white transition-colors"
+                className="text-white/60 hover:text-white transition-colors p-1"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -65,27 +65,27 @@ export default function ChatWidget() {
             {/* Messages */}
             <div 
               ref={scrollRef}
-              className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900/50"
+              className="flex-1 overflow-y-auto p-6 space-y-6 bg-neutral-50/30"
             >
               {messages.map((msg, i) => (
                 <div 
                   key={i}
                   className={cn(
-                    "flex gap-3 max-w-[85%]",
+                    "flex gap-3 max-w-[90%]",
                     msg.role === 'visitor' ? "ml-auto flex-row-reverse" : ""
                   )}
                 >
                   <div className={cn(
-                    "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
-                    msg.role === 'ai' ? "bg-slate-800 text-brand-400" : "bg-brand-600 text-white"
+                    "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border shadow-sm",
+                    msg.role === 'ai' ? "bg-white border-neutral-200 text-black" : "bg-black border-black text-white"
                   )}>
                     {msg.role === 'ai' ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
                   </div>
                   <div className={cn(
-                    "p-3 rounded-2xl text-sm leading-relaxed",
+                    "p-3 rounded-2xl text-sm leading-relaxed shadow-sm font-medium",
                     msg.role === 'ai' 
-                      ? "bg-slate-800 text-slate-200 rounded-tl-sm" 
-                      : "bg-brand-600 text-white rounded-tr-sm shadow-lg shadow-brand-900/20"
+                      ? "bg-white text-black border border-neutral-200 rounded-tl-sm" 
+                      : "bg-black text-white rounded-tr-sm"
                   )}>
                     {msg.text}
                   </div>
@@ -94,25 +94,25 @@ export default function ChatWidget() {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-slate-900 border-t border-slate-800">
-              <div className="flex gap-2 bg-slate-800 p-2 rounded-xl border border-slate-700">
+            <div className="p-4 bg-white border-t border-neutral-100">
+              <div className="flex gap-2 bg-neutral-50 p-2 rounded-2xl border border-neutral-200 focus-within:border-black transition-all">
                 <input 
                   type="text" 
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Ask a question..."
-                  className="flex-1 bg-transparent border-none focus:ring-0 text-white text-sm px-2"
+                  className="flex-1 bg-transparent border-none focus:ring-0 text-black text-sm px-3 placeholder:text-neutral-400 font-medium"
                 />
                 <button 
                   onClick={handleSend}
-                  className="bg-brand-600 p-2 rounded-lg text-white hover:bg-brand-500 transition-colors"
+                  className="bg-black p-2.5 rounded-xl text-white hover:bg-neutral-800 transition-all shadow-md active:scale-95"
                 >
                   <Send className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-[9px] text-slate-500 mt-2 text-center">
-                Powered by CogniSupport Hub
+              <p className="text-[9px] text-neutral-400 mt-3 text-center font-bold uppercase tracking-widest">
+                Powered by CogniSupport
               </p>
             </div>
           </motion.div>
@@ -124,8 +124,8 @@ export default function ChatWidget() {
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-colors duration-300",
-          isOpen ? "bg-slate-800 text-white" : "bg-brand-600 text-white"
+          "w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 border border-neutral-200",
+          isOpen ? "bg-neutral-100 text-black" : "bg-black text-white"
         )}
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}

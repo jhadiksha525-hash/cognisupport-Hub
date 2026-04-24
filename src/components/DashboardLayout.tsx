@@ -11,11 +11,13 @@ import {
   X, 
   Bot,
   ChevronRight,
-  Plus
+  Plus,
+  Mail
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../lib/AuthContext';
+import { auth } from '../lib/firebase';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -32,6 +34,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (!user) return null;
 
+  // Enforce email verification
+  if (!user.emailVerified) {
+    return (
+      <div className="min-h-screen bg-bg flex items-center justify-center p-6 text-center font-sans">
+        <div className="glass-card shadow-xl p-10 max-w-md border-border bg-surface">
+          <Mail className="w-12 h-12 text-primary mx-auto mb-6" />
+          <h2 className="text-2xl font-bold mb-4 text-text-main tracking-tight">Please verify your email</h2>
+          <p className="text-text-muted mb-8 text-sm leading-relaxed">
+            You need to verify your email address <strong>({user.email})</strong> before you can access the dashboard.
+            If you just verified it, please refresh this page.
+          </p>
+          <div className="space-y-4">
+            <button 
+              onClick={async () => {
+                await auth.currentUser?.reload();
+                window.location.reload();
+              }}
+              className="btn-primary w-full py-3 shadow-lg shadow-primary/20"
+            >
+              I've verified my email
+            </button>
+            <button 
+              onClick={() => signOut()}
+              className="w-full text-text-muted hover:text-primary text-sm font-bold transition-colors"
+            >
+              Sign out and use another account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const navItems = [
     { name: 'Overview', icon: LayoutDashboard, href: '/dashboard' },
     { name: 'Knowledge Base', icon: FileText, href: '/dashboard/documents' },
@@ -41,7 +76,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   ];
 
   return (
-    <div className="flex h-screen bg-slate-950 overflow-hidden">
+    <div className="flex h-screen bg-surface overflow-hidden text-text-main font-sans">
       {/* Sidebar */}
       <AnimatePresence mode="wait">
         {isSidebarOpen && (
@@ -49,13 +84,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             initial={{ x: -280, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -280, opacity: 0 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-            className="w-72 bg-slate-900 border-r border-slate-800 flex flex-col z-40 fixed md:relative h-full"
+            transition={{ type: 'spring', damping: 25, stiffness: 120 }}
+            className="w-72 bg-bg border-r border-border flex flex-col z-40 fixed md:relative h-full"
           >
             <div className="p-6">
-              <Link to="/" className="flex items-center gap-2 mb-8">
-                <Bot className="w-8 h-8 text-brand-500" />
-                <span className="font-display font-bold text-xl text-white">CogniSupport</span>
+              <Link to="/" className="flex items-center gap-2 mb-8 group">
+                <div className="bg-primary p-1.5 rounded-lg shadow-lg shadow-primary/20">
+                   <Bot className="w-6 h-6 text-white" />
+                </div>
+                <span className="font-display font-bold text-xl text-text-main tracking-tight">CogniSupport</span>
               </Link>
 
               <div className="space-y-1">
@@ -64,39 +101,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     key={item.href}
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group",
+                      "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all group",
                       location.pathname === item.href 
-                        ? "bg-brand-600 text-white shadow-lg shadow-brand-900/20" 
-                        : "text-slate-400 hover:text-white hover:bg-slate-800"
+                        ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                        : "text-text-muted hover:text-primary hover:bg-primary/5"
                     )}
                   >
-                    <item.icon className={cn("w-5 h-5", location.pathname === item.href ? "text-white" : "text-slate-400 group-hover:text-brand-400")} />
+                    <item.icon className={cn("w-5 h-5", location.pathname === item.href ? "text-white" : "text-text-muted group-hover:text-primary")} />
                     {item.name}
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="mt-auto p-4 border-t border-slate-800">
-              <div className="bg-slate-800/50 rounded-2xl p-4 mb-4">
-                <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Current Organization</p>
+            <div className="mt-auto p-4 border-t border-border">
+              <div className="bg-surface border border-border rounded-xl p-4 mb-4 shadow-sm">
+                <p className="text-[10px] uppercase tracking-widest text-text-muted font-bold mb-2">Current Organization</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center font-bold text-white">
+                  <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-white shadow-inner">
                     T
                   </div>
                   <div className="flex-1 overflow-hidden">
-                    <p className="text-sm font-bold text-white truncate">The Tech Corp</p>
-                    <p className="text-[10px] text-slate-400">Owner</p>
+                    <p className="text-sm font-bold text-text-main truncate">The Tech Corp</p>
+                    <p className="text-[10px] text-text-muted">Owner</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-600" />
+                  <ChevronRight className="w-4 h-4 text-border" />
                 </div>
               </div>
               
               <button 
                 onClick={() => signOut()}
-                className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-400/10 transition-all font-bold"
+                className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-sm font-bold text-text-muted hover:text-error hover:bg-error/5 transition-all"
               >
-                <LogOut className="w-5 h-5 font-bold" />
+                <LogOut className="w-5 h-5" />
                 Sign Out
               </button>
             </div>
@@ -106,38 +143,38 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
-        <header className="h-16 border-b border-slate-800 flex items-center justify-between px-6 bg-slate-950/50 backdrop-blur-sm relative z-30">
+        <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-surface/80 backdrop-blur-md relative z-30">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 transition-colors"
+              className="p-2 hover:bg-bg rounded-lg text-text-muted transition-colors"
             >
               {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <h2 className="font-bold text-white tracking-tight">
+            <h2 className="font-bold text-text-main tracking-tight text-lg">
               {navItems.find(i => i.href === location.pathname)?.name || 'Dashboard'}
             </h2>
           </div>
           
           <div className="flex items-center gap-4">
-            <button className="bg-brand-600 hover:bg-brand-500 text-white p-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-all px-4">
+            <button className="bg-primary hover:bg-primary-hover text-white p-2 rounded-lg flex items-center gap-2 text-sm font-bold transition-all px-4 h-10 shadow-lg shadow-primary/10">
               <Plus className="w-4 h-4" /> New Training
             </button>
-            <div className="h-8 w-px bg-slate-800" />
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center">
+            <div className="h-6 w-px bg-border" />
+            <div className="flex items-center gap-3 font-medium">
+              <div className="w-8 h-8 rounded-full bg-bg border border-border overflow-hidden flex items-center justify-center">
                 {user.photoURL ? (
                   <img src={user.photoURL} alt={user.displayName || ''} />
                 ) : (
-                  <Bot className="w-4 h-4 text-brand-400" />
+                  <Bot className="w-4 h-4 text-primary" />
                 )}
               </div>
-              <span className="text-xs font-bold text-white hidden md:block">{profile?.displayName || 'Admin'}</span>
+              <span className="text-xs font-bold text-text-main hidden md:block">{profile?.displayName || 'Admin'}</span>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-950 relative">
+        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-bg relative">
            <AnimatePresence mode="wait">
              <motion.div
                key={location.pathname}

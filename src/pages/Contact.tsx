@@ -7,8 +7,8 @@ export default function Contact() {
     <div className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-black tracking-tighter">Get in Touch</h1>
+          <p className="text-neutral-500 text-lg max-w-2xl mx-auto font-medium">
             Have questions about CogniSupport? Our team is here to help you scale your support operations.
           </p>
         </div>
@@ -19,19 +19,19 @@ export default function Contact() {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-8"
           >
-            <div className="glass-card p-8 space-y-8">
+            <div className="glass-card p-8 space-y-8 bg-white border border-neutral-200 shadow-sm">
               <ContactInfo 
-                icon={<Mail className="w-6 h-6 text-brand-400" />}
+                icon={<Mail className="w-6 h-6 text-black" />}
                 title="Email Us"
                 content="support@cognisupport.com"
               />
               <ContactInfo 
-                icon={<Phone className="w-6 h-6 text-brand-400" />}
+                icon={<Phone className="w-6 h-6 text-black" />}
                 title="Call Us"
                 content="+1 (555) 000-0000"
               />
               <ContactInfo 
-                icon={<MapPin className="w-6 h-6 text-brand-400" />}
+                icon={<MapPin className="w-6 h-6 text-black" />}
                 title="Visit Us"
                 content="123 AI Boulevard, Silicon Valley, CA"
               />
@@ -41,26 +41,26 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass-card p-8"
+            className="glass-card p-8 bg-white border border-neutral-200 shadow-sm"
           >
             <form className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-400">Name</label>
-                  <input type="text" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all" />
+                  <label className="text-sm font-bold text-neutral-500">Name</label>
+                  <input type="text" className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition-all" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-400">Email</label>
-                  <input type="email" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all" />
+                  <label className="text-sm font-bold text-neutral-500">Email</label>
+                  <input type="email" className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition-all" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Subject</label>
-                <input type="text" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all" />
+                <label className="text-sm font-bold text-neutral-500">Subject</label>
+                <input type="text" className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition-all" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Message</label>
-                <textarea rows={4} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all" />
+                <label className="text-sm font-bold text-neutral-500">Message</label>
+                <textarea rows={4} className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition-all" />
               </div>
               <button className="btn-primary w-full py-3 flex items-center justify-center gap-2">
                 Send Message <Send className="w-4 h-4" />
@@ -76,12 +76,12 @@ export default function Contact() {
 function ContactInfo({ icon, title, content }: { icon: React.ReactNode, title: string, content: string }) {
   return (
     <div className="flex gap-4">
-      <div className="bg-slate-800 p-3 rounded-xl">
+      <div className="bg-neutral-100 p-3 rounded-xl border border-neutral-200">
         {icon}
       </div>
       <div>
-        <h4 className="font-bold text-white">{title}</h4>
-        <p className="text-slate-400">{content}</p>
+        <h4 className="font-bold text-black">{title}</h4>
+        <p className="text-neutral-500 font-medium">{content}</p>
       </div>
     </div>
   );

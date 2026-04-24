@@ -1,10 +1,9 @@
 {
-  "projectId": "gen-lang-client-0560395783",
-  "appId": "1:8652605648:web:5ce32699473e7f633eb6d5",
-  "apiKey": "AIzaSyB89ObdalQ4CmAKYPJLkIdaFrf-yE1vgGQ",
-  "authDomain": "gen-lang-client-0560395783.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-26e57731-275c-4dbe-8a4a-4372171b87ce",
-  "storageBucket": "gen-lang-client-0560395783.firebasestorage.app",
-  "messagingSenderId": "8652605648",
-  "measurementId": ""
+  "projectId": "cognisupporthub",
+  "appId": "1:396102183158:web:7a6ed85f7083f76612a4d7",
+  "apiKey": "AIzaSyDFr64phvFsWJgef0SX8kOilmmeW6ep15A",
+  "authDomain": "cognisupporthub.firebaseapp.com",
+  "storageBucket": "cognisupporthub.firebasestorage.app",
+  "messagingSenderId": "396102183158",
+  "measurementId": "G-REWX4RGHHE"
 }

@@ -5,8 +5,14 @@ import { Github, Twitter, Linkedin } from 'lucide-react';
 export default function Founders() {
   const founders = [
     {
+      name: "Dhruv",
+      role: "CEO & Founder",
+      bio: "An architect of intelligent systems, Dhruv leads our technical strategy, pushing the boundaries of what's possible with RAG and LLM orchestration.",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dhruv"
+    },
+    {
       name: "Diksha",
-      role: "Founder & CEO",
+      role: "CEO & Founder",
       bio: "Visionary leader focused on revolutionizing B2B support through AI research and human-centric design.",
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Diksha"
     }
@@ -16,13 +22,13 @@ export default function Founders() {
     <div className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">Our Leadership</h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter text-black">Our Leadership</h1>
+          <p className="text-neutral-500 text-lg max-w-2xl mx-auto font-medium">
             Meet the minds behind CogniSupport Hub, dedicated to building the future of automated customer service.
           </p>
         </div>
 
-        <div className="flex justify-center">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {founders.map((founder, i) => (
             <motion.div
               key={founder.name}
@@ -31,15 +37,15 @@ export default function Founders() {
               transition={{ delay: i * 0.1 }}
               className="max-w-md w-full"
             >
-              <div className="glass-card overflow-hidden group">
-                <div className="aspect-square relative bg-brand-950 overflow-hidden">
+              <div className="glass-card overflow-hidden group bg-white border border-neutral-200 shadow-sm">
+                <div className="aspect-square relative bg-neutral-100 overflow-hidden">
                   <img src={founder.image} alt={founder.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60" />
                 </div>
                 <div className="p-8 text-center">
-                  <h3 className="text-2xl font-bold text-white mb-2">{founder.name}</h3>
-                  <p className="text-brand-400 font-medium mb-4">{founder.role}</p>
-                  <p className="text-slate-400 mb-6 leading-relaxed">
+                  <h3 className="text-2xl font-bold text-black mb-2">{founder.name}</h3>
+                  <p className="text-neutral-900 font-bold mb-4">{founder.role}</p>
+                  <p className="text-neutral-500 mb-6 leading-relaxed font-medium">
                     {founder.bio}
                   </p>
                   <div className="flex justify-center gap-4">
@@ -59,7 +65,7 @@ export default function Founders() {
 
 function SocialIcon({ icon, href }: { icon: React.ReactNode, href: string }) {
   return (
-    <a href={href} className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-brand-600 transition-all">
+    <a href={href} className="p-2 rounded-lg bg-neutral-100 text-neutral-500 hover:text-white hover:bg-black transition-all">
       {icon}
     </a>
   );
