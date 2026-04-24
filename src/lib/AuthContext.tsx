@@ -52,7 +52,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setProfile(userSnap.data());
           }
         } catch (error: any) {
-          console.error("Error syncing profile:", error);
+          if (error?.message?.includes('offline') || error?.code === 'unavailable') {
+            console.warn("Firestore is currently offline or unreachable. Using locally derived profile fallback.");
+          } else {
+            console.error("Error syncing profile:", error);
+          }
           
           // Use basic info if we can't fetch the full profile due to network
           setProfile({
@@ -60,7 +64,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             email: user.email,
             displayName: user.displayName || user.email?.split('@')[0] || 'User',
             photoURL: user.photoURL || '',
-            isOffline: true
+            isOffline: true,
+            orgId: localStorage.getItem(`orgId_${user.uid}`) || 'default-org' // Optional: try to remember last org
           });
         }
       } else {

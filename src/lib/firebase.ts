@@ -5,11 +5,11 @@ import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 
-// Use initializeFirestore to enable experimentalForceLongPolling
+// Use initializeFirestore to enable experimentalForceLongPolling and disable FetchStreams
 // This helps avoid "offline" errors in environments with restrictive networking/proxies.
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
-}, (firebaseConfig as any).firestoreDatabaseId);
+});
 
 export const auth = getAuth(app);
 
