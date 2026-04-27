@@ -8,13 +8,13 @@ export default function Founders() {
       name: "Dhruv",
       role: "CEO & Founder",
       bio: "An architect of intelligent systems, Dhruv leads our technical strategy, pushing the boundaries of what's possible with RAG and LLM orchestration.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dhruv"
+      image: "/artifact/input_file_0.png"
     },
     {
       name: "Diksha",
       role: "CEO & Founder",
       bio: "Visionary leader focused on revolutionizing B2B support through AI research and human-centric design.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Diksha"
+      image: "/artifact/input_file_1.png"
     }
   ];
 
