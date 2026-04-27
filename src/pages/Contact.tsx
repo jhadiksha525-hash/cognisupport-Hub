@@ -9,7 +9,7 @@ export default function Contact() {
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-black tracking-tighter">Get in Touch</h1>
           <p className="text-neutral-500 text-lg max-w-2xl mx-auto font-medium">
-            Have questions about CogniSupport? Our team is here to help you scale your support operations.
+            Have questions about CiteSupport? Our team is here to help you scale your support operations.
           </p>
         </div>
 
@@ -23,7 +23,7 @@ export default function Contact() {
               <ContactInfo 
                 icon={<Mail className="w-6 h-6 text-black" />}
                 title="Email Us"
-                content="support@cognisupport.com"
+                content="support@citesupport.com"
               />
               <ContactInfo 
                 icon={<Phone className="w-6 h-6 text-black" />}

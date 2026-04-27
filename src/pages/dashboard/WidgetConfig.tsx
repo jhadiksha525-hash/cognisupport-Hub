@@ -27,9 +27,9 @@ export default function WidgetConfig() {
     { name: 'State', value: '#64748B' },
   ];
 
-  const embedCode = `<script src="https://cdn.cognisupport.com/widget.js" async></script>
+  const embedCode = `<script src="https://cdn.citesupport.com/widget.js" async></script>
 <script>
-  window.CogniSupport = {
+  window.CiteSupport = {
     orgId: "org_29k184j01",
     theme: "${themeColor}",
     welcomeMessage: "${welcomeMsg}"

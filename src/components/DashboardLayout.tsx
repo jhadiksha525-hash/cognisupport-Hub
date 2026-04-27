@@ -92,7 +92,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div className="bg-primary p-1.5 rounded-lg shadow-lg shadow-primary/20">
                    <Bot className="w-6 h-6 text-white" />
                 </div>
-                <span className="font-display font-bold text-xl text-text-main tracking-tight">CogniSupport</span>
+                <span className="font-display font-bold text-xl text-text-main tracking-tight">CiteSupport</span>
               </Link>
 
               <div className="space-y-1">

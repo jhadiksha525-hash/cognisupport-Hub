@@ -11,7 +11,7 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-2 mb-6 group">
               <Bot className="w-8 h-8 text-black transition-transform group-hover:scale-110" />
               <span className="font-display font-bold text-2xl tracking-tighter text-black">
-                CogniSupport <span className="text-neutral-400 underline underline-offset-8 decoration-2 decoration-neutral-200">Hub</span>
+                CiteSupport
               </span>
             </Link>
             <p className="text-neutral-500 max-w-sm leading-relaxed font-medium">
@@ -47,7 +47,7 @@ export default function Footer() {
         
         <div className="pt-8 border-t border-neutral-200 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-neutral-400 text-xs font-bold uppercase tracking-widest">
-            © 2026 CogniSupport Hub. Built by Diksha.
+            © 2026 CiteSupport. Built by Diksha & Dhruv.
           </p>
           <div className="flex gap-8 text-xs font-bold uppercase tracking-widest text-neutral-400">
             <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>

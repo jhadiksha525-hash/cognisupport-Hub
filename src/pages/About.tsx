@@ -9,7 +9,7 @@ export default function About() {
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-8 text-black tracking-tighter">Redefining Support for the AI Era.</h1>
           <p className="text-neutral-500 text-xl leading-relaxed mb-12 font-medium">
-            CogniSupport Hub was born out of a simple problem: businesses having too much documentation and too little time to answer customers accurately. 
+            CiteSupport was born out of a simple problem: businesses having too much documentation and too little time to answer customers accurately. 
             We built a platform that lets AI act as a second brain for your support team.
           </p>
         </div>

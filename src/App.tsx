@@ -222,7 +222,7 @@ function SignUp() {
     <div className="pt-40 flex items-center justify-center px-6 pb-20 bg-bg min-h-screen">
       <div className="glass-card p-10 w-full max-w-md bg-surface border border-border shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-bold mb-2 text-center text-text-main tracking-tighter">Create Account</h2>
-        <p className="text-text-muted mb-8 text-center text-sm font-medium">Join CogniSupport Hub today.</p>
+        <p className="text-text-muted mb-8 text-center text-sm font-medium">Join CiteSupport today.</p>
 
         {error && (
           <div className="mb-6 p-4 bg-error/5 border border-error/10 text-error text-xs rounded-xl font-bold">

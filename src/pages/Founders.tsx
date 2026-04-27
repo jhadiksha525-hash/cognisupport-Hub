@@ -24,7 +24,7 @@ export default function Founders() {
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter text-black">Our Leadership</h1>
           <p className="text-neutral-500 text-lg max-w-2xl mx-auto font-medium">
-            Meet the minds behind CogniSupport Hub, dedicated to building the future of automated customer service.
+            Meet the minds behind CiteSupport, dedicated to building the future of automated customer service.
           </p>
         </div>
 

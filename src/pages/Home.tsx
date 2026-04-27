@@ -62,7 +62,7 @@ export default function Home() {
                    <div className="w-3 h-3 rounded-full bg-green-400/20 border border-green-400/30" />
                  </div>
                  <div className="mx-auto bg-surface border border-border rounded-md px-3 py-1 text-[10px] text-text-muted flex items-center gap-2">
-                   app.cognisupport.com/dashboard
+                   app.citesupport.com/dashboard
                  </div>
                </div>
                <div className="pt-16 px-8 grid grid-cols-12 gap-6 h-full">
@@ -92,7 +92,7 @@ export default function Home() {
       <section className="py-24 px-6 bg-bg">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-6xl font-bold mb-4 tracking-tighter text-text-main">Why CogniSupport?</h2>
+            <h2 className="text-3xl md:text-6xl font-bold mb-4 tracking-tighter text-text-main">Why CiteSupport?</h2>
             <p className="text-text-muted text-lg font-medium">Engineered for accuracy, privacy, and scale.</p>
           </div>
 

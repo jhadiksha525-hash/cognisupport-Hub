@@ -27,8 +27,7 @@ export default function Navigation() {
                 <Bot className="w-6 h-6 text-white" />
               </div>
               <span className="font-display font-bold text-xl tracking-tight text-text-main">
-                CogniSupport <span className="text-primary border-b-2 border-primary/10 pb-0.5">Hub</span>
-              </span>
+                CiteSupport</span>
             </Link>
           </div>
 

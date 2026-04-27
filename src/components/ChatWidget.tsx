@@ -112,7 +112,7 @@ export default function ChatWidget() {
                 </button>
               </div>
               <p className="text-[9px] text-neutral-400 mt-3 text-center font-bold uppercase tracking-widest">
-                Powered by CogniSupport
+                Powered by CiteSupport
               </p>
             </div>
           </motion.div>
