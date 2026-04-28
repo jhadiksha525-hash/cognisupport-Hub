@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Founders from './pages/Founders';
 import Contact from './pages/Contact';
+import Pricing from './pages/Pricing';
+import Docs from './pages/Docs';
 import ChatWidget from './components/ChatWidget';
 import DashboardLayout from './components/DashboardLayout';
 import Overview from './pages/dashboard/Overview';
@@ -30,6 +32,8 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/founders" element={<Founders />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/docs" element={<Docs />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
 

@@ -11,10 +11,11 @@ export default function Navigation() {
   const { user, profile, signOut } = useAuth();
 
   const navLinks = [
-    { name: 'Home', href: '/' },
+    { name: 'Product', href: '/' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Docs', href: '/docs' },
     { name: 'Founders', href: '/founders' },
     { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
   ];
 
   return (

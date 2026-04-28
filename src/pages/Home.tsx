@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Shield, Zap, Globe, MessageSquare, Database, Sparkles, Bot } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Zap, MessageSquare, FileText, Sparkles, Bot, Headset } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -88,45 +88,168 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-24 px-6 bg-bg">
+      {/* Trust Badges Features */}
+      <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-6xl font-bold mb-4 tracking-tighter text-text-main">Why CiteSupport?</h2>
-            <p className="text-text-muted text-lg font-medium">Engineered for accuracy, privacy, and scale.</p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter text-text-main">Built for Trust.</h2>
+            <p className="text-text-muted text-lg font-medium">Core features that ensure reliability and transparency.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard 
-              icon={<Shield className="w-6 h-6 text-primary" />}
-              title="Data Isolation"
-              desc="Multi-tenant architecture ensures your company data never leaks into other models."
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <TrustBadge 
+              icon={<FileText className="w-6 h-6 text-primary" />}
+              title="Citations Enabled"
+              desc="Answers include sources from your uploaded documents."
+              delay={0.1}
             />
-            <FeatureCard 
-              icon={<Database className="w-6 h-6 text-accent" />}
-              title="Knowledge Graph"
-              desc="Upload PDFs, SOPs, and Manuals. Our AI builds a complex vector index for RAG."
+            <TrustBadge 
+              icon={<ShieldCheck className="w-6 h-6 text-accent" />}
+              title="Multi-tenant Ready"
+              desc="Each organization’s data stays isolated and secure."
+              delay={0.2}
             />
-            <FeatureCard 
-              icon={<MessageSquare className="w-6 h-6 text-primary" />}
+            <TrustBadge 
+              icon={<Headset className="w-6 h-6 text-primary" />}
               title="Human Handoff"
-              desc="Seamlessly transition from AI to a live agent when things get complex."
+              desc="Low-confidence queries can be escalated to an agent."
+              delay={0.3}
             />
-            <FeatureCard 
+            <TrustBadge 
+              icon={<Sparkles className="w-6 h-6 text-accent" />}
+              title="RAG Knowledge Base"
+              desc="Upload PDFs and Manuals to build a vector search index."
+              delay={0.4}
+            />
+            <TrustBadge 
               icon={<Zap className="w-6 h-6 text-warning" />}
-              title="Citations"
-              desc="Every answer comes with sources. Build trust with transparent AI responses."
+              title="Fast Responses (Beta)"
+              desc="Optimized for quick replies and smooth UX."
+              delay={0.5}
             />
-            <FeatureCard 
-              icon={<Globe className="w-6 h-6 text-accent" />}
-              title="Embed Anywhere"
-              desc="One script tag is all it takes to bring AI support to your entire website."
-            />
-            <FeatureCard 
+            <TrustBadge 
               icon={<Bot className="w-6 h-6 text-primary" />}
-              title="Multi-Tenant"
-              desc="Scale from one team to an entire conglomerate with org isolation."
+              title="Embed Anywhere"
+              desc="One script tag to bring AI support to your website."
+              delay={0.6}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Live Demo Section */}
+      <section className="py-24 px-6 bg-bg overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter text-text-main">
+                Verification by Default.
+              </h2>
+              <p className="text-text-muted text-lg mb-8 font-medium leading-relaxed">
+                Most AI bots hallucinate because they have no reference. CiteSupport scans your actual SOPs and Manuals, then generates answers that cite specific paragraphs.
+              </p>
+              
+              <ul className="space-y-4 mb-10">
+                {[
+                  "Automatic Source Attributions",
+                  "Deep-link to PDF pages & sections",
+                  "One-click source verification for users",
+                  "Eliminate AI 'hallucinations' entirely"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-text-main font-bold">
+                    <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-primary" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <Link to="/sign-up" className="btn-primary inline-flex items-center gap-2">
+                Get Started for Free <ArrowRight className="w-5 h-5" />
+              </Link>
+            </motion.div>
+
+            <div className="relative">
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+              
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative glass-card bg-surface border-border shadow-2xl overflow-hidden rounded-3xl"
+              >
+                {/* Chat UI Header */}
+                <div className="p-6 bg-bg border-b border-border flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+                      <Bot className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-text-main">CiteSupport Assistant</h4>
+                      <p className="text-[10px] text-primary font-bold uppercase tracking-widest">Always Verified</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[10px] font-bold text-text-muted">LIVE AGENT READY</span>
+                  </div>
+                </div>
+
+                {/* Chat Body */}
+                <div className="p-8 space-y-6">
+                  {/* User Question */}
+                  <div className="flex justify-end">
+                    <div className="max-w-[80%] bg-primary/5 border border-primary/10 rounded-2xl rounded-tr-none py-3 px-4 shadow-sm">
+                      <p className="text-sm text-text-main font-medium">What is your refund policy for seasonal items?</p>
+                    </div>
+                  </div>
+
+                  {/* AI Response with Citations */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex-shrink-0 flex items-center justify-center">
+                      <Bot className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="space-y-4">
+                      <div className="bg-bg border border-border p-5 rounded-2xl rounded-tl-none shadow-sm relative overflow-hidden group">
+                        <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+                        <p className="text-sm text-text-main leading-relaxed mb-4">
+                          According to our current retail guidelines, seasonal items (holiday decorations, lawn furniture, etc.) can be returned for a full refund within 14 days of purchase <Citation num={1} />. 
+                          Items must be in original packaging and show no signs of use. After 14 days, only store credit is issued <Citation num={2} />.
+                        </p>
+                        
+                        <div className="pt-4 mt-4 border-t border-border flex flex-col gap-2">
+                          <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Sources</p>
+                          <div className="flex flex-wrap gap-2">
+                            <SourceCard title="Refund_Policy_2024.pdf" page="Page 14" />
+                            <SourceCard title="Seasonal_Retail_Manual.docx" page="Section 4.2" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Float Badge */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute -bottom-6 -left-6 bg-white border border-border shadow-2xl p-4 rounded-2xl max-w-xs"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                    <ShieldCheck className="w-4 h-4 text-green-600" />
+                  </div>
+                  <p className="text-xs font-bold text-text-main">Multi-tenant Isolation: Your data is 100% private.</p>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -134,19 +257,45 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
+function TrustBadge({ icon, title, desc, delay }: { icon: React.ReactNode, title: string, desc: string, delay: number }) {
   return (
     <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
       whileHover={{ y: -5 }}
-      className="p-8 rounded-2xl bg-surface border border-border hover:border-primary transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5"
+      className="p-8 rounded-3xl bg-surface border border-border hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5 group"
     >
-      <div className="bg-bg w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+      <div className="bg-bg w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-inner">
         {icon}
       </div>
-      <h3 className="text-xl font-bold mb-3 text-text-main tracking-tight">{title}</h3>
-      <p className="text-text-muted leading-relaxed font-medium">
+      <h3 className="text-lg font-bold mb-3 text-text-main tracking-tight">{title}</h3>
+      <p className="text-xs text-text-muted leading-relaxed font-bold uppercase tracking-wide">
         {desc}
       </p>
     </motion.div>
+  );
+}
+
+function Citation({ num }: { num: number }) {
+  return (
+    <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-primary/10 text-primary text-[10px] font-bold border border-primary/20 cursor-help hover:bg-primary hover:text-white transition-colors align-top ml-1">
+      {num}
+    </span>
+  );
+}
+
+function SourceCard({ title, page }: { title: string, page: string }) {
+  return (
+    <div className="flex items-center gap-2 p-2 rounded-lg bg-bg border border-border hover:border-primary/30 transition-colors cursor-pointer group/source">
+      <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center group-hover/source:bg-primary/20 transition-colors">
+        <FileText className="w-4 h-4 text-primary" />
+      </div>
+      <div className="pr-2">
+        <p className="text-[10px] font-bold text-text-main leading-none mb-1">{title}</p>
+        <p className="text-[8px] text-text-muted font-bold uppercase tracking-tighter">{page}</p>
+      </div>
+    </div>
   );
 }
