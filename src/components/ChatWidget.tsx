@@ -149,31 +149,31 @@ export default function ChatWidget() {
                   initial={{ opacity: 0, x: 20, scale: 0.95 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 20, scale: 0.95 }}
-                  className="hidden lg:flex flex-col w-[300px] h-[550px] bg-white rounded-3xl shadow-2xl border border-neutral-200 overflow-hidden"
+                  className="hidden lg:flex flex-col w-[300px] h-[550px] bg-[#0B1020]/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 overflow-hidden"
                 >
-                  <div className="p-5 border-b border-neutral-100 bg-neutral-50 flex items-center justify-between">
+                  <div className="p-5 border-b border-white/5 bg-[#070A12]/50 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-bold text-text-main uppercase tracking-widest">Source Context</span>
+                      <span className="text-xs font-bold text-white uppercase tracking-widest">Source Context</span>
                     </div>
                     <button 
                       onClick={() => setSelectedCitation(null)}
-                      className="text-neutral-400 hover:text-black transition-colors"
+                      className="text-white/40 hover:text-white transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                   <div className="p-6 flex-1 overflow-y-auto">
-                    <h5 className="text-sm font-bold text-text-main mb-1">{selectedCitation.source}</h5>
+                    <h5 className="text-sm font-bold text-white mb-1 leading-tight">{selectedCitation.source}</h5>
                     <p className="text-[10px] text-primary font-bold uppercase tracking-widest mb-6">{selectedCitation.page}</p>
                     
-                    <div className="bg-primary/5 border-l-2 border-primary p-4 rounded-r-xl shadow-inner text-pretty">
-                      <p className="text-sm text-text-main leading-relaxed italic">
+                    <div className="bg-white/5 border-l-2 border-primary p-4 rounded-r-xl shadow-inner text-pretty">
+                      <p className="text-sm text-white/80 leading-relaxed italic">
                         "{selectedCitation.content}"
                       </p>
                     </div>
                     
-                    <button className="mt-8 flex items-center gap-2 text-xs font-bold text-primary hover:underline group">
+                    <button className="mt-8 flex items-center gap-2 text-xs font-bold text-primary hover:text-primary-hover transition-colors group">
                       View full document <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
                   </div>
@@ -182,26 +182,26 @@ export default function ChatWidget() {
             </AnimatePresence>
 
             {/* Chat Module */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 20 }}
-              className="w-[350px] md:w-[400px] h-[580px] glass-card flex flex-col overflow-hidden shadow-2xl border-neutral-200 bg-white rounded-3xl"
-            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                className="w-[350px] md:w-[400px] h-[580px] flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0B1020]/90 backdrop-blur text-white shadow-[0_20px_80px_rgba(0,0,0,0.6)]"
+              >
               {/* Header */}
-              <div className="bg-black p-5 flex items-center justify-between">
+              <div className="bg-[#070A12]/80 p-5 flex items-center justify-between border-b border-white/5">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="bg-white/10 p-2 rounded-xl backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-primary to-accent p-2 rounded-xl shadow-lg shadow-primary/20">
                       <Bot className="w-5 h-5 text-white" />
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-black rounded-full" />
+                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-[#0B1020] rounded-full" />
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm tracking-tight flex items-center gap-2">
                        Support Assistant
                     </h4>
-                    <p className="text-neutral-400 text-[10px] font-bold uppercase tracking-widest">Always Verified</p>
+                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Always Verified</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -214,7 +214,7 @@ export default function ChatWidget() {
                   </button>
                   <button 
                     onClick={() => setIsOpen(false)}
-                    className="text-white/60 hover:text-white transition-colors p-1"
+                    className="text-white/40 hover:text-white transition-colors p-1"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -224,7 +224,7 @@ export default function ChatWidget() {
               {/* Messages Area */}
               <div 
                 ref={scrollRef}
-                className="flex-1 overflow-y-auto p-6 space-y-6 bg-neutral-50/30 scroll-smooth"
+                className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth"
               >
                 {messages.map((msg, i) => (
                   <div 
@@ -237,30 +237,36 @@ export default function ChatWidget() {
                   >
                     {msg.role !== 'system' && (
                       <div className={cn(
-                        "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border shadow-sm",
-                        msg.role === 'ai' ? "bg-white border-neutral-200 text-black" : "bg-black border-black text-white"
+                        "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border shadow-md",
+                        msg.role === 'ai' ? "bg-white/5 border-white/10 text-white" : "bg-primary border-primary/20 text-white"
                       )}>
                         {msg.role === 'ai' ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
                       </div>
                     )}
 
                     {msg.role === 'system' ? (
-                      <div className="bg-neutral-100/50 text-[10px] font-bold text-neutral-500 uppercase tracking-widest px-4 py-2 rounded-full border border-neutral-200">
+                      <div className="bg-white/5 text-[10px] font-bold text-white/40 uppercase tracking-widest px-4 py-2 rounded-full border border-white/10">
                         {msg.text}
                       </div>
                     ) : (
                       <div className="space-y-2 flex-1">
                         <div className={cn(
-                          "p-4 rounded-2xl text-sm leading-relaxed shadow-sm font-medium relative group/msg",
+                          "p-4 rounded-2xl text-sm leading-relaxed shadow-xl font-medium relative group/msg",
                           msg.role === 'ai' 
-                            ? "bg-white text-black border border-neutral-200 rounded-tl-sm w-full" 
-                            : "bg-black text-white rounded-tr-sm"
+                            ? "bg-white/5 text-white/90 border border-white/10 rounded-tl-sm w-full backdrop-blur-md" 
+                            : "bg-primary text-white rounded-tr-sm shadow-primary/20"
                         )}>
                           {msg.role === 'ai' && msg.confidence && !msg.isStreaming && (
                             <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover/msg:opacity-100 transition-opacity">
-                              <button title="Copy" className="p-1 hover:bg-neutral-100 rounded transition-colors"><Copy className="w-3 h-3 text-neutral-400" /></button>
-                              <button title="Helpful" className="p-1 hover:bg-neutral-100 rounded transition-colors"><ThumbsUp className="w-3 h-3 text-neutral-400" /></button>
-                              <button title="Not Helpful" className="p-1 hover:bg-neutral-100 rounded transition-colors"><ThumbsDown className="w-3 h-3 text-neutral-400" /></button>
+                              <button 
+                                onClick={() => {
+                                  navigator.clipboard.writeText(msg.text);
+                                }}
+                                title="Copy" 
+                                className="p-1 hover:bg-white/10 rounded transition-colors"
+                              >
+                                <Copy className="w-3 h-3 text-white/40 hover:text-white" />
+                              </button>
                             </div>
                           )}
 
@@ -268,12 +274,12 @@ export default function ChatWidget() {
                           {msg.isStreaming && <span className="inline-block w-1.5 h-4 bg-primary ml-1 animate-pulse align-middle" />}
                           
                           {msg.role === 'ai' && msg.confidence && !msg.isStreaming && (
-                            <div className="mt-3 pt-2 border-t border-neutral-50 flex items-center justify-between">
+                            <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between">
                               <ConfidenceLabel type={msg.confidence} />
                               {msg.confidence === 'low' && (
                                 <button 
                                   onClick={connectToAgent}
-                                  className="text-[10px] items-center gap-1 font-bold text-primary hover:underline flex"
+                                  className="text-[10px] items-center gap-1 font-bold text-primary hover:text-primary-hover transition-colors flex"
                                 >
                                   Talk to Human? <Headset className="w-3 h-3" />
                                 </button>
@@ -282,8 +288,8 @@ export default function ChatWidget() {
                           )}
 
                           {msg.citations && msg.citations.length > 0 && !msg.isStreaming && (
-                            <div className="mt-4 pt-3 border-t border-neutral-100">
-                              <p className="flex items-center justify-between w-full text-left mb-2 text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+                            <div className="mt-4 pt-3 border-t border-white/10">
+                              <p className="flex items-center justify-between w-full text-left mb-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
                                 Sources
                               </p>
                               <div className="flex flex-col gap-2">
@@ -294,19 +300,22 @@ export default function ChatWidget() {
                                     className={cn(
                                       "flex items-center justify-between gap-3 p-2 rounded-xl border transition-all text-left group/cite",
                                       selectedCitation?.id === cite.id 
-                                        ? "bg-primary/5 border-primary/20" 
-                                        : "bg-neutral-50 border-neutral-200 hover:border-primary/20"
+                                        ? "bg-primary/20 border-primary/40 shadow-lg shadow-primary/10" 
+                                        : "bg-white/5 border-white/5 hover:border-white/20"
                                     )}
                                   >
-                                    <div className="flex items-center gap-2">
-                                      <div className="bg-white p-1 rounded border border-neutral-100">
-                                        <FileText className="w-3 h-3 text-primary" />
+                                    <div className="flex items-center gap-2 overflow-hidden">
+                                      <div className={cn(
+                                        "p-1 rounded border",
+                                        selectedCitation?.id === cite.id ? "bg-primary border-primary/20" : "bg-white/5 border-white/10"
+                                      )}>
+                                        <FileText className="w-3 h-3 text-white" />
                                       </div>
-                                      <span className="text-[10px] font-bold truncate max-w-[120px]">{cite.source}</span>
+                                      <span className="text-[10px] font-bold truncate text-white/80">{cite.source}</span>
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                      <span className="text-[9px] font-bold text-neutral-400">{cite.page}</span>
-                                      <ChevronRight className="w-3 h-3 text-neutral-300 group-hover/cite:text-primary transition-colors" />
+                                    <div className="flex items-center gap-1 flex-shrink-0">
+                                      <span className="text-[9px] font-bold text-white/40">{cite.page}</span>
+                                      <ChevronRight className="w-3 h-3 text-white/20 group-hover/cite:text-primary transition-colors" />
                                     </div>
                                   </button>
                                 ))}
@@ -321,13 +330,13 @@ export default function ChatWidget() {
 
                 {isTyping && (
                   <div className="flex gap-3 max-w-[90%]">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border shadow-sm bg-white border-neutral-200">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 border shadow-sm bg-white/5 border-white/10 text-white">
                       <Bot className="w-4 h-4" />
                     </div>
-                    <div className="bg-white border border-neutral-200 p-4 rounded-2xl rounded-tl-sm flex gap-1 items-center">
-                      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="w-1.5 h-1.5 bg-primary rounded-full" />
-                      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1.5 h-1.5 bg-primary rounded-full" />
-                      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-1.5 h-1.5 bg-primary rounded-full" />
+                    <div className="bg-white/5 border border-white/10 p-4 rounded-2xl rounded-tl-sm flex gap-1 items-center">
+                      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="w-1.5 h-1.5 bg-primary rounded-full shadow-lg shadow-primary/50" />
+                      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1.5 h-1.5 bg-primary rounded-full shadow-lg shadow-primary/50" />
+                      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-1.5 h-1.5 bg-primary rounded-full shadow-lg shadow-primary/50" />
                     </div>
                   </div>
                 )}
@@ -335,12 +344,12 @@ export default function ChatWidget() {
 
               {/* Suggestions Panel */}
               {!isTyping && messages.length < 5 && !isAgentMode && (
-                <div className="px-6 py-2 flex flex-wrap gap-2 overflow-x-auto no-scrollbar bg-white/50">
+                <div className="px-6 py-2 flex flex-wrap gap-2 overflow-x-auto no-scrollbar">
                   {suggestedQuestions.map(q => (
                     <button 
                       key={q}
                       onClick={() => handleSend(q)}
-                      className="whitespace-nowrap px-3 py-1.5 rounded-full bg-white border border-neutral-200 text-[10px] font-bold text-neutral-600 hover:border-primary hover:text-primary transition-all active:scale-95 shadow-sm"
+                      className="whitespace-nowrap px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/60 hover:border-primary hover:text-white hover:bg-white/10 transition-all active:scale-95 shadow-lg"
                     >
                       {q}
                     </button>
@@ -350,43 +359,43 @@ export default function ChatWidget() {
 
               {/* Agent Mode Footer */}
               {isAgentMode && (
-                <div className="mx-6 mb-2 p-3 rounded-xl bg-orange-50 border border-orange-100 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center border border-orange-200 relative">
-                     <Headset className="w-4 h-4 text-orange-600" />
-                     <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-500 rounded-full animate-ping" />
+                <div className="mx-6 mb-2 p-3 rounded-xl bg-primary/10 border border-primary/20 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30 relative">
+                     <Headset className="w-4 h-4 text-primary" />
+                     <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-ping" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-orange-800 uppercase tracking-widest">Agent Request Sent</p>
-                    <p className="text-[9px] font-medium text-orange-600">A human agent will be with you shortly.</p>
+                    <p className="text-[10px] font-bold text-white uppercase tracking-widest leading-none mb-1">Agent Request Sent</p>
+                    <p className="text-[9px] font-medium text-white/40 italic">A human agent will be with you shortly.</p>
                   </div>
                 </div>
               )}
 
               {/* Input Area */}
-              <div className="p-4 bg-white border-t border-neutral-100">
-                <div className="flex gap-2 bg-neutral-50 p-2 rounded-2xl border border-neutral-200 focus-within:border-black transition-all shadow-inner">
+              <div className="p-4 bg-[#070A12]/50 border-t border-white/5">
+                <div className="flex gap-2 bg-white/5 p-2 rounded-2xl border border-white/10 focus-within:border-primary transition-all shadow-inner">
                   <input 
                     type="text" 
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                     placeholder={isAgentMode ? "Message the human agent..." : "Ask your knowledge base..."}
-                    className="flex-1 bg-transparent border-none focus:ring-0 text-black text-sm px-3 placeholder:text-neutral-400 font-medium"
+                    className="flex-1 bg-transparent border-none focus:ring-0 text-white text-sm px-3 placeholder:text-white/20 font-medium"
                   />
                   <button 
                     onClick={() => handleSend()}
                     disabled={!input.trim()}
-                    className="bg-black p-2.5 rounded-xl text-white hover:bg-neutral-800 transition-all shadow-md active:scale-95 disabled:opacity-20 flex-shrink-0"
+                    className="bg-gradient-to-r from-primary to-accent p-2.5 rounded-xl text-white hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95 disabled:opacity-20 flex-shrink-0"
                   >
                     <Send className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="mt-3 flex items-center justify-between px-2">
-                   <p className="text-[8px] text-neutral-400 font-bold uppercase tracking-widest flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                    Verified Output
-                  </p>
-                   <p className="text-[8px] text-neutral-400 font-bold uppercase tracking-widest">
+                   <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-0.5 text-[8px] font-semibold text-emerald-200">
+                    <CheckCircle2 className="w-2 h-2" />
+                    VERIFIED OUTPUT
+                  </div>
+                   <p className="text-[8px] text-white/30 font-bold uppercase tracking-widest">
                     Support Efficiency: +84%
                   </p>
                 </div>
@@ -402,8 +411,8 @@ export default function ChatWidget() {
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 border border-neutral-200 group overflow-hidden relative",
-          isOpen ? "bg-white text-black" : "bg-black text-white"
+          "h-14 w-14 rounded-full text-white bg-gradient-to-r from-[#6D28D9] to-[#4F46E5] shadow-[0_12px_40px_rgba(0,0,0,0.5)] hover:opacity-95 transition flex items-center justify-center z-[101]",
+          isOpen ? "rotate-0" : ""
         )}
       >
         <AnimatePresence mode="wait">
@@ -426,16 +435,24 @@ export default function ChatWidget() {
 }
 
 function ConfidenceLabel({ type }: { type: Confidence }) {
+  if (type === 'high') {
+    return (
+      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[9px] font-semibold text-emerald-200">
+        <CheckCircle2 className="w-2.5 h-2.5" />
+        VERIFIED OUTPUT
+      </span>
+    );
+  }
+
   const styles = {
-    high: { icon: CheckCircle2, text: 'Verified Output', color: 'text-green-600', bg: 'bg-green-50' },
-    medium: { icon: AlertCircle, text: 'Probable Match', color: 'text-orange-600', bg: 'bg-orange-50' },
-    low: { icon: AlertCircle, text: 'Low Confidence', color: 'text-red-600', bg: 'bg-red-50' }
+    medium: { icon: AlertCircle, text: 'Probable Match', color: 'text-orange-400', bg: 'bg-orange-500/10' },
+    low: { icon: AlertCircle, text: 'Low Confidence', color: 'text-red-400', bg: 'bg-red-500/10' }
   };
 
-  const { icon: Icon, text, color, bg } = styles[type];
+  const { icon: Icon, text, color, bg } = styles[type as 'medium' | 'low'];
 
   return (
-    <div className={cn("inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-current", bg, color)}>
+    <div className={cn("inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-current backdrop-blur-sm", bg, color)}>
       <Icon className="w-2.5 h-2.5" />
       <span className="text-[9px] font-bold uppercase tracking-widest">{text}</span>
     </div>

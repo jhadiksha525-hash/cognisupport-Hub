@@ -5,40 +5,39 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   
-  /* Requested Theme Palette */
-  --color-primary: #2563EB;
-  --color-primary-hover: #1D4ED8;
-  --color-accent: #14B8A6;
-  --color-bg: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-text-main: #0F172A;
-  --color-text-muted: #64748B;
-  --color-border: #E2E8F0;
+  /* Purple Night Theme Palette */
+  --color-primary: #6D28D9;
+  --color-primary-hover: #7C3AED;
+  --color-accent: #4F46E5;
+  --color-accent-hover: #6366F1;
+  --color-bg: #070A12;
+  --color-surface: #0B1020;
+  --color-text-main: #E5E7EB;
+  --color-text-muted: #9CA3AF;
+  --color-border: rgba(255, 255, 255, 0.1);
   
-  --color-success: #22C55E;
+  --color-brand-bg: #070A12;
+  --color-brand-panel: #0B1020;
+  --color-brand-purple: #6D28D9;
+  --color-brand-indigo: #4F46E5;
+
+  --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
-  /* Extending Tailwind colors */
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-200: #bfdbfe;
-  --color-brand-300: #93c5fd;
-  --color-brand-400: #60a5fa;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
-  --color-brand-800: #1e40af;
-  --color-brand-900: #1e3a8a;
-  --color-brand-950: #172554;
-
-  --radius-xl: 0.5rem;
-  --radius-2xl: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
 }
 
 @layer base {
   body {
-    @apply bg-bg text-text-main font-sans antialiased selection:bg-primary selection:text-white;
+    @apply text-text-main font-sans antialiased selection:bg-primary selection:text-white;
+    background: radial-gradient(1200px 600px at 20% -10%, rgba(109, 40, 217, 0.35), transparent 60%),
+                radial-gradient(900px 500px at 80% 10%, rgba(79, 70, 229, 0.25), transparent 60%),
+                linear-gradient(180deg, #070A12 0%, #0B1020 50%, #070A12 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -47,27 +46,45 @@
 }
 
 .glass-card {
-  @apply bg-surface border border-border rounded-lg shadow-sm;
+  @apply bg-white/5 border border-white/10 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-sm;
 }
 
 .btn-primary {
-  @apply bg-primary hover:bg-primary-hover text-white font-bold px-5 py-2.5 rounded-md transition-all active:scale-[0.98] border border-primary;
+  @apply bg-gradient-to-r from-[#6D28D9] to-[#4F46E5] hover:from-[#7C3AED] hover:to-[#6366F1] text-white font-bold px-6 py-3 rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-purple-900/20;
 }
 
 .btn-secondary {
-  @apply bg-white hover:bg-slate-50 text-text-main font-bold px-5 py-2.5 rounded-md transition-all active:scale-[0.98] border border-border;
+  @apply bg-white/5 hover:bg-white/10 text-white font-bold px-6 py-3 rounded-xl transition-all active:scale-[0.98] border border-white/10 backdrop-blur-sm;
 }
 
 .dashboard-sidebar {
-  @apply bg-slate-50 border-r border-border;
+  @apply bg-[#0B1020] border-r border-white/10;
 }
 
 @keyframes float {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+  50% { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
 }
 
 .animate-float {
   animation: float 8s ease-in-out infinite;
+}
+
+/* Custom Scrollbar for Dark Theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070A12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(109, 40, 217, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(109, 40, 217, 0.4);
 }

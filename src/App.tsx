@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './lib/AuthContext';
 import { auth } from './lib/firebase';
-import Navigation from './components/Navigation';
+import SiteNavbar from './components/SiteNavbar';
 import Footer from './components/Footer';
 import { Mail } from 'lucide-react';
 import Home from './pages/Home';
 import About from './pages/About';
-import Founders from './pages/Founders';
 import Contact from './pages/Contact';
 import Pricing from './pages/Pricing';
 import Docs from './pages/Docs';
@@ -15,7 +14,7 @@ import ChatWidget from './components/ChatWidget';
 import DashboardLayout from './components/DashboardLayout';
 import Overview from './pages/dashboard/Overview';
 import Documents from './pages/dashboard/Documents';
-import Conversations from './pages/dashboard/Conversations';
+import Inbox from './pages/dashboard/Inbox';
 import WidgetConfig from './pages/dashboard/WidgetConfig';
 import Analytics from './pages/dashboard/Analytics';
 import { Link } from 'react-router-dom';
@@ -30,7 +29,6 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              <Route path="/founders" element={<Founders />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/docs" element={<Docs />} />
@@ -40,7 +38,7 @@ export default function App() {
               {/* Dashboard Routes */}
               <Route path="/dashboard" element={<DashboardLayout children={<Overview />} />} />
               <Route path="/dashboard/documents" element={<DashboardLayout children={<Documents />} />} />
-              <Route path="/dashboard/conversations" element={<DashboardLayout children={<Conversations />} />} />
+              <Route path="/dashboard/inbox" element={<DashboardLayout children={<Inbox />} />} />
               <Route path="/dashboard/widget" element={<DashboardLayout children={<WidgetConfig />} />} />
               <Route path="/dashboard/analytics" element={<DashboardLayout children={<Analytics />} />} />
 
@@ -58,7 +56,7 @@ export default function App() {
 function ConditionalNavigation() {
   const isDashboard = window.location.pathname.startsWith('/dashboard');
   if (isDashboard) return null;
-  return <Navigation />;
+  return <SiteNavbar />;
 }
 
 function ConditionalFooter() {
