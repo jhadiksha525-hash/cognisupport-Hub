@@ -19,6 +19,7 @@ import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../lib/AuthContext';
 import { auth } from '../lib/firebase';
+import LoadingScreen from './LoadingScreen';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -29,11 +30,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   // Redirect if not logged in
   useEffect(() => {
     if (!user) {
-       window.location.pathname = '/sign-in';
+       navigate('/sign-in');
     }
-  }, [user]);
+  }, [user, navigate]);
 
-  if (!user) return null;
+  if (!user) return <LoadingScreen />;
 
   // Enforce email verification
   if (!user.emailVerified) {

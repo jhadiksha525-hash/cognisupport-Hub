@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import LoadingScreen from '../components/LoadingScreen';
 
 interface AuthContextType {
   user: User | null;
@@ -30,46 +31,55 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
         try {
-          // Sync/get user profile
-          const userRef = doc(db, 'users', user.uid);
+          // Check session storage first for immediate feel
+          const cachedProfile = sessionStorage.getItem(`profile_${firebaseUser.uid}`);
+          if (cachedProfile) {
+            setProfile(JSON.parse(cachedProfile));
+          }
+
+          const userRef = doc(db, 'users', firebaseUser.uid);
           const userSnap = await getDoc(userRef);
           
           if (!userSnap.exists()) {
             const newProfile = {
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName || user.email?.split('@')[0] || 'User',
-              photoURL: user.photoURL || '',
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
+              photoURL: firebaseUser.photoURL || '',
               createdAt: serverTimestamp()
             };
             await setDoc(userRef, newProfile);
             setProfile(newProfile);
+            sessionStorage.setItem(`profile_${firebaseUser.uid}`, JSON.stringify(newProfile));
           } else {
-            setProfile(userSnap.data());
+            const data = userSnap.data();
+            setProfile(data);
+            sessionStorage.setItem(`profile_${firebaseUser.uid}`, JSON.stringify(data));
           }
         } catch (error: any) {
-          if (error?.message?.includes('offline') || error?.code === 'unavailable') {
-            console.warn("Firestore is currently offline or unreachable. Using locally derived profile fallback.");
-          } else {
-            console.error("Error syncing profile:", error);
+          console.error("Profile sync error:", error);
+          // Fallback to minimal profile if Firestore fails
+          if (!profile) {
+            setProfile({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
+              photoURL: firebaseUser.photoURL || '',
+              isOffline: true
+            });
           }
-          
-          // Use basic info if we can't fetch the full profile due to network
-          setProfile({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName || user.email?.split('@')[0] || 'User',
-            photoURL: user.photoURL || '',
-            isOffline: true,
-            orgId: localStorage.getItem(`orgId_${user.uid}`) || 'default-org' // Optional: try to remember last org
-          });
         }
       } else {
+        setUser(null);
         setProfile(null);
+        // Clear caches on sign out
+        Object.keys(sessionStorage).forEach(key => {
+          if (key.startsWith('profile_')) sessionStorage.removeItem(key);
+        });
       }
       setLoading(false);
     });
@@ -92,15 +102,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
       await sendEmailVerification(userCredential.user);
       
-      // Initial profile creation
       const userRef = doc(db, 'users', userCredential.user.uid);
-      await setDoc(userRef, {
+      const profileData = {
         uid: userCredential.user.uid,
         email: email,
         displayName: name,
         photoURL: '',
         createdAt: serverTimestamp()
-      });
+      };
+      await setDoc(userRef, profileData);
+      setProfile(profileData);
     } catch (error) {
       console.error("Signup error:", error);
       throw error;
@@ -118,11 +129,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     await firebaseSignOut(auth);
+    setUser(null);
+    setProfile(null);
   };
 
   return (
     <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, signUpWithEmail, signInWithEmail, signOut }}>
-      {!loading && children}
+      {loading ? <LoadingScreen /> : children}
     </AuthContext.Provider>
   );
 }
